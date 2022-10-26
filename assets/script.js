@@ -96,11 +96,9 @@ var questions = [
 ]
 
 //game logic variables
-var currentQuestion = 0
-var state = {
-    correct: 0,
-    incorrect: 0
-};
+var currentQuestion = 0;
+var wins = 0;
+var losses = 0;
 var gameRunning = false;
 var timeLeft = 60;
 
@@ -128,10 +126,11 @@ var startTimer = function () {
         timerEl.textContent = timeLeft;
         //if time reaches 0, game over
         if (timeLeft === 0) {
+            alert('Time is Up!!!');
             gameOver();
             gameOverScreen();
         }
-    }, 100);
+    }, 1000);
 };
 
 function questionPage(question) {
@@ -156,7 +155,6 @@ function questionPage(question) {
             // else take 10 seconds off of my total time
             if (event.currentTarget.dataset.correct === 'true') {
                 alert('nice work!')
-                timeLeft++;
             } else {
                 alert ('false!')
                 // take off some time
@@ -222,3 +220,10 @@ function gameOverScreen() {
 
 
 homePage()
+
+
+
+//WHEN I answer a question incorrectly
+//THEN time is subtracted from the clock
+//WHEN the game is over
+//THEN I can save my initials and my score
