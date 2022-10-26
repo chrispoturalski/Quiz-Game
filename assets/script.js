@@ -18,6 +18,23 @@ var questions = [
         ]
     },
     {
+        title: 'What is 2x2x2',
+        answers: [
+            {
+                answer: 8,
+                correct: true
+            },
+            {
+                answer: 6,
+                correct: false
+            },
+            {
+                answer: 16,
+                correct: false
+            }
+        ]
+    },
+    {
         title: 'What is 4x4',
         answers: [
             {
@@ -25,18 +42,23 @@ var questions = [
                 correct: false
             },
             {
-                answer: 16,
-                correct: true
-            },
-            {
                 answer: 20,
                 correct: false
+            },
+            {
+                answer: 16,
+                correct: true
             }
         ]
     },
 ]
 
 var currentQuestion = 0
+var state = {
+    correct: 0,
+    incorrect: 0
+}
+
 
 function homePage () {
     quiz.innerHTML = `
@@ -60,9 +82,9 @@ function questionPage(question) {
             ${question.title}
         </p>
         <ui>
-            <li><button id="answerOne">${question.answers[0].answer}</button></li>
-            <li><button id="answerTwo">${question.answers[1].answer}</button></li>
-            <li><button id="answerThree">${question.answers[2].answer}</button></li>
+            <li><button data-correct="${question.answers[0].correct}" id="answerOne">${question.answers[0].answer}</button></li>
+            <li><button data-correct="${question.answers[1].correct}" id="answerTwo">${question.answers[1].answer}</button></li>
+            <li><button data-correct="${question.answers[2].correct}" id="answerThree">${question.answers[2].answer}</button></li>
         </ui>
     `    
 
@@ -70,20 +92,73 @@ function questionPage(question) {
     .getElementById('answerTwo')
     .addEventListener(
         'click',
-        function() {
-            currentQuestion++
-            questionPage(questions[currentQuestion])
-        },
-    ),
-    document
-    .getElementById('answerTwo')
-    .addEventListener(
-        'click',
-        function() {
+        function(event) {
+            // if event.currentTarget.dataset.correct === 'true'
+            // ok
+            // else take 10 seconds off of my total time
+            if (event.currentTarget.dataset.correct === 'true') {
+                alert('nice work!')
+            } else {
+                alert ('false!')
+                // take off some time
+            }
+            if (questions.length === currentQuestion - 1) {
+                gameOverScreen()
+            }
             currentQuestion++
             questionPage(questions[currentQuestion])
         }
     )
+    document
+    .getElementById('answerOne')
+    .addEventListener(
+        'click',
+        function(event) {
+            // if event.currentTarget.dataset.correct === 'true'
+            // ok
+            // else take 10 seconds off of my total time
+            if (event.currentTarget.dataset.correct === 'true') {
+                alert('nice work!')
+            } else {
+                alert ('false!')
+                // take off some time
+            }
+            if (questions.length === currentQuestion - 1) {
+                gameOverScreen()
+            }
+            currentQuestion++
+            questionPage(questions[currentQuestion])
+        }
+    )
+    //Final questions
+    document
+    .getElementById('answerThree')
+    .addEventListener(
+        'click',
+        function(event) {
+            // if event.currentTarget.dataset.correct === 'true'
+            // ok
+            // else take 10 seconds off of my total time
+            if (event.currentTarget.dataset.correct === 'true') {
+                alert('nice work!')
+            } else {
+                alert ('false!')
+                // take off some time
+            }
+            currentQuestion++
+            if (questions.length === currentQuestion) {
+                gameOverScreen()
+            }
+            questionPage(questions[currentQuestion])
+        }
+    )
 }
+
+function gameOverScreen() {
+    quiz.innerHTML = `
+    <h1>Nice Work!</h1>
+    `
+}
+
 
 homePage()
