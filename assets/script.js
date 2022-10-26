@@ -184,7 +184,8 @@ function questionPage(question) {
 
 function gameOverScreen() {
     quiz.innerHTML = `
-    <h1>Nice Work!</h1>
+    <h1>Highscore!</h1>
+    <h2>Enter your initials below</h2>
     `
 }
 
