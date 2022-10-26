@@ -1,3 +1,11 @@
+//utility function to select an element based on tag
+var qs = function (tag) {
+    return document.querySelector(tag);
+  };
+
+// pulled variables from HTML
+var timerEl = qs(".timer-count");  
+
 var quiz = document.getElementById("quiz");
 var questions = [
     {
@@ -87,12 +95,14 @@ var questions = [
     },
 ]
 
+//game logic variables
 var currentQuestion = 0
 var state = {
     correct: 0,
     incorrect: 0
-}
-
+};
+var gameRunning = false;
+var timeLeft = 60;
 
 function homePage () {
     quiz.innerHTML = `
@@ -106,9 +116,23 @@ function homePage () {
     .addEventListener(
         'click', 
         function() {
+        startTimer();
         questionPage(questions[currentQuestion])
     })
 }
+
+var startTimer = function () {
+    interval = setInterval(function (){
+        // this gets called every second
+        timeLeft--;
+        timerEl.textContent = timeLeft;
+        //if time reaches 0, game over
+        if (timeLeft === 0) {
+            gameOver();
+            gameOverScreen();
+        }
+    }, 100);
+};
 
 function questionPage(question) {
     quiz.innerHTML = `
@@ -132,6 +156,7 @@ function questionPage(question) {
             // else take 10 seconds off of my total time
             if (event.currentTarget.dataset.correct === 'true') {
                 alert('nice work!')
+                timeLeft++;
             } else {
                 alert ('false!')
                 // take off some time
@@ -175,11 +200,17 @@ function questionPage(question) {
             }
             currentQuestion++
             if (questions.length === currentQuestion) {
-                gameOverScreen()
+                gameOverScreen();
             }
             questionPage(questions[currentQuestion])
         }
     )
+}
+
+var gameOver = function () {
+    clearInterval(interval);
+    gameRunning = false;
+    timeLeft = 60;
 }
 
 function gameOverScreen() {
