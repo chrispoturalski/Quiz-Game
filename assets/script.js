@@ -18,6 +18,23 @@ var questions = [
         ]
     },
     {
+        title: 'Where does HTML stand for?',
+        answers: [
+            {
+                answer: 'Hyperlinks and Markup Language',
+                correct: false
+            },
+            {
+                answer: 'Hypertext Markup Language',
+                correct: true
+            },
+            {
+                answer: 'Hometool Markup Language',
+                correct: false
+            }
+        ]
+    },
+    {
         title: 'What is 2x2x2',
         answers: [
             {
@@ -30,6 +47,23 @@ var questions = [
             },
             {
                 answer: 16,
+                correct: false
+            }
+        ]
+    },
+    {
+        title: 'Where is UCI located?',
+        answers: [
+            {
+                answer: 'Irvine',
+                correct: true
+            },
+            {
+                answer: 'Inglewood',
+                correct: false
+            },
+            {
+                answer: 'Idyllwild',
                 correct: false
             }
         ]
@@ -102,9 +136,6 @@ function questionPage(question) {
                 alert ('false!')
                 // take off some time
             }
-            if (questions.length === currentQuestion - 1) {
-                gameOverScreen()
-            }
             currentQuestion++
             questionPage(questions[currentQuestion])
         }
@@ -123,14 +154,11 @@ function questionPage(question) {
                 alert ('false!')
                 // take off some time
             }
-            if (questions.length === currentQuestion - 1) {
-                gameOverScreen()
-            }
             currentQuestion++
             questionPage(questions[currentQuestion])
         }
     )
-    //Final questions
+    //Final question
     document
     .getElementById('answerThree')
     .addEventListener(
