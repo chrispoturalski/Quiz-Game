@@ -1,7 +1,7 @@
 //utility function to select an element based on tag
 var qs = function (tag) {
     return document.querySelector(tag);
-  };
+};
 
 // pulled variables from HTML
 var timerEl = qs(".timer-count");  
@@ -124,13 +124,14 @@ var startTimer = function () {
         // this gets called every second
         timeLeft--;
         timerEl.textContent = timeLeft;
+        gameRunning = true;
         //if time reaches 0, game over
         if (timeLeft === 0) {
             alert('Time is Up!!!');
             gameOver();
             gameOverScreen();
         }
-    }, 1000);
+    }, 100);
 };
 
 function questionPage(question) {
@@ -208,13 +209,18 @@ function questionPage(question) {
 var gameOver = function () {
     clearInterval(interval);
     gameRunning = false;
-    timeLeft = 60;
+    
+
 }
 
 function gameOverScreen() {
     quiz.innerHTML = `
     <h1>Highscore!</h1>
     <h2>Enter your initials below</h2>
+    <form>
+        <input placeholder="name" id="name">
+        <button id="submit-score">Submit Score</button>
+    </form>
     `
 }
 
