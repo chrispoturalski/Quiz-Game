@@ -222,6 +222,26 @@ function gameOverScreen() {
         <button id="submit-score">Submit Score</button>
     </form>
     `
+    //function for saveHighscore
+    // Save related form data as an object
+    // var highscore = {
+        //correct: correct.value
+        //incorrect: incorrect.value
+        //timeleft: timeleft.value
+    //};
+
+    //localStorage.setItem("saveHighscore", JSON.stringify(saveHighscore));
+
+    //function pullHighscore() {
+        //var saveHighscore = JSON.parse(localStorage.getItem(saveHighscore));
+        //if (saveHighscore !== null) {
+            //document.getElementByID("correct-value").innerHTML = saveHighscore.correct;
+            //document.getElementByID("incorrect-value").innerHTML = saveHighscore.incorrect;
+            //document.getElementByID("timeleft-value").innerHTML = saveHighscore.timeleft;
+        //} else {
+            //return;
+        //}
+    //}
 }
 
 
