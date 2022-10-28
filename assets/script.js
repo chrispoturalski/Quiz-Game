@@ -7,6 +7,7 @@ var qs = function (tag) {
 var timerEl = qs(".timer-count");  
 
 var quiz = document.getElementById("quiz");
+var getHighscore = localStorage.getItem("getHighscore");
 var questions = [
     {
         title: 'What is 3x3',
@@ -141,7 +142,7 @@ var startTimer = function () {
             gameOver();
             gameOverScreen();
         }
-    }, 200);
+    }, 500);
 };
 
 function questionPage(question) {
@@ -161,9 +162,7 @@ function questionPage(question) {
     .addEventListener(
         'click',
         function(event) {
-            //timeLeft -=5
-            // if event.currentTarget.dataset.correct === 'true'
-            // ok
+            // if event.currentTarget.dataset.correct === 'true'          
             // else take 10 seconds off of my total time
             if (event.currentTarget.dataset.correct === 'true') {
                 wins += 1
@@ -172,6 +171,8 @@ function questionPage(question) {
                 // take off some time
             }
             currentQuestion++
+            highscore.textContent = getHighscore;
+            localStorage.setItem("getHighscore", getHighscore);
             questionPage(questions[currentQuestion])
         }
     )
@@ -180,9 +181,7 @@ function questionPage(question) {
     .addEventListener(
         'click',
         function(event) {
-            //timeLeft -=5
-            // if event.currentTarget.dataset.correct === 'true'
-            // ok
+            // if event.currentTarget.dataset.correct === 'true'         
             // else take 10 seconds off of my total time
             if (event.currentTarget.dataset.correct === 'true') {
                 wins += 1
@@ -191,6 +190,8 @@ function questionPage(question) {
                 // take off some time
             }
             currentQuestion++
+            highscore.textContent = getHighscore;
+            localStorage.setItem("getHighscore", getHighscore);
             questionPage(questions[currentQuestion])
         }
     )
@@ -200,16 +201,16 @@ function questionPage(question) {
     .addEventListener(
         'click',
         function(event) {
-            //timeLeft -=5
             // if event.currentTarget.dataset.correct === 'true'
-            // ok
             // else take 10 seconds off of my total time
             if (event.currentTarget.dataset.correct === 'true') {
                 wins += 1
             } else {
                 deductTime()
             }
-            currentQuestion++
+            currentQuestion++;
+            highscore.textContent = getHighscore;
+            localStorage.setItem("getHighscore", getHighscore);
             if (questions.length === currentQuestion) {
                 gameOverScreen();
                 gameOver();
@@ -220,6 +221,12 @@ function questionPage(question) {
     )
 }
 
+let text1 = "You've earned ";
+let text2 = highscore;
+let text3 = " points!!";
+let result = text1.concat(text2, text3);
+console.log(result);
+
 var gameOver = function () {
     console.log(wins);
     highscore = (wins + timeLeft);
@@ -227,12 +234,6 @@ var gameOver = function () {
     clearInterval(interval);
     gameRunning = false;
 }
-
-let text1 = "You've earned ";
-let text2 = highscore;
-let text3 = " points!!";
-let result = text1.concat(text2, text3);
-console.log(result);
 
 function gameOverScreen() {
     quiz.innerHTML = `
@@ -243,32 +244,33 @@ function gameOverScreen() {
         <input placeholder="name" id="name">
         <button id="submit-score">Submit Score</button>
     </form>
-    `
-    //function for saveHighscore
-    // Save related form data as an object
-    // var highscore = {
-        //correct: correct.value
-        //incorrect: incorrect.value
-        //timeleft: timeleft.value
-    //};
-
-    //localStorage.setItem("saveHighscore", JSON.stringify(saveHighscore));
-
-    //function pullHighscore() {
-        //var saveHighscore = JSON.parse(localStorage.getItem(saveHighscore));
-        //if (saveHighscore !== null) {
-            //document.getElementByID("correct-value").innerHTML = saveHighscore.correct;
-            //document.getElementByID("incorrect-value").innerHTML = saveHighscore.incorrect;
-            //document.getElementByID("timeleft-value").innerHTML = saveHighscore.timeleft;
-        //} else {
-            //return;
-        //}
-    //}
+`
+    
+    
+}
+function saveHighscore() {
+    var highscore = {
+        wins: wins.value,
+        timeLeft: timeLeft.value,
+    }; 
+    localStorage.setItem("highscore", JSON.stringify(highscore));
+}
+function getHighscore() {
+    var highscore = JSON.parse(localStorage.getItem("highscore"));
+    if (highscore !== null) {
+        document.querySelector("submit-score").innerHTML = submit;
+        document.querySelector(".message").textContent = "You've earned " + highscore + " points!"
+    }
+    console.log(getHighscore);
 }
 
 
-homePage()
+function init() {
+    saveHighscore();
+}
 
+homePage();
+init();
 
 
 //WHEN the game is over
