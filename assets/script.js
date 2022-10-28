@@ -94,6 +94,14 @@ var questions = [
         ]
     },
 ]
+function displayTime() {
+    timerEl.textContent = timeLeft;
+}
+function deductTime() {
+    timeLeft -= 5 
+    displayTime()
+}
+
 
 //game logic variables
 var currentQuestion = 0;
@@ -101,12 +109,13 @@ var wins = 0;
 var losses = 0;
 var gameRunning = false;
 var timeLeft = 60;
+var highscore = 0;
 
 function homePage () {
     quiz.innerHTML = `
-    <p>
+    <h1>
         My Quiz
-    </p> 
+    </h1> 
     <button id="startQuiz">Start Quiz</button>
     `
 
@@ -121,6 +130,7 @@ function homePage () {
 
 var startTimer = function () {
     interval = setInterval(function (){
+        //console.log(timeLeft)
         // this gets called every second
         timeLeft--;
         timerEl.textContent = timeLeft;
@@ -131,7 +141,7 @@ var startTimer = function () {
             gameOver();
             gameOverScreen();
         }
-    }, 100);
+    }, 200);
 };
 
 function questionPage(question) {
@@ -151,13 +161,14 @@ function questionPage(question) {
     .addEventListener(
         'click',
         function(event) {
+            //timeLeft -=5
             // if event.currentTarget.dataset.correct === 'true'
             // ok
             // else take 10 seconds off of my total time
             if (event.currentTarget.dataset.correct === 'true') {
-                alert('nice work!')
+                wins += 1
             } else {
-                alert ('false!')
+                deductTime()
                 // take off some time
             }
             currentQuestion++
@@ -169,13 +180,14 @@ function questionPage(question) {
     .addEventListener(
         'click',
         function(event) {
+            //timeLeft -=5
             // if event.currentTarget.dataset.correct === 'true'
             // ok
             // else take 10 seconds off of my total time
             if (event.currentTarget.dataset.correct === 'true') {
-                alert('nice work!')
+                wins += 1
             } else {
-                alert ('false!')
+                deductTime()
                 // take off some time
             }
             currentQuestion++
@@ -188,34 +200,44 @@ function questionPage(question) {
     .addEventListener(
         'click',
         function(event) {
+            //timeLeft -=5
             // if event.currentTarget.dataset.correct === 'true'
             // ok
             // else take 10 seconds off of my total time
             if (event.currentTarget.dataset.correct === 'true') {
-                alert('nice work!')
+                wins += 1
             } else {
-                alert ('false!')
-                // take off some time
+                deductTime()
             }
             currentQuestion++
             if (questions.length === currentQuestion) {
                 gameOverScreen();
+                gameOver();
             }
             questionPage(questions[currentQuestion])
+            
         }
     )
 }
 
 var gameOver = function () {
+    console.log(wins);
+    highscore = (wins + timeLeft);
+    console.log(highscore);
     clearInterval(interval);
     gameRunning = false;
-    
-
 }
+
+let text1 = "You've earned ";
+let text2 = highscore;
+let text3 = " points!!";
+let result = text1.concat(text2, text3);
+console.log(result);
 
 function gameOverScreen() {
     quiz.innerHTML = `
-    <h1>Highscore!</h1>
+    <h1>New Score!!</h1>
+    <h2> </h2>
     <h2>Enter your initials below</h2>
     <form>
         <input placeholder="name" id="name">
@@ -249,7 +271,5 @@ homePage()
 
 
 
-//WHEN I answer a question incorrectly
-//THEN time is subtracted from the clock
 //WHEN the game is over
 //THEN I can save my initials and my score
